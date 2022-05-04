@@ -28,14 +28,21 @@
         <q-item-label
           header
         >
-          Essential Links
+          Mes exercices
         </q-item-label>
-
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
-        />
+        <q-item
+          v-for="lien of liens"
+          :key="lien.url"
+          :to="lien.url"
+          clickable
+          v-ripple
+          active-class="my-menu-link"
+        >
+          <q-item-section avatar>
+            <q-icon :name="lien.icon" />
+          </q-item-section>
+          <q-item-section>{{lien.nom}}</q-item-section>
+        </q-item>
       </q-list>
     </q-drawer>
 
@@ -46,66 +53,30 @@
 </template>
 
 <script>
+
 import { defineComponent, ref } from 'vue'
-import EssentialLink from 'components/EssentialLink.vue'
-
-const linksList = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
-  }
-]
-
 export default defineComponent({
   name: 'MainLayout',
-
-  components: {
-    EssentialLink
+  data () {
+    return {
+      liens: [{
+        nom: 'Exercice 1',
+        url: '/ex1',
+        icon: 'face'
+      },
+      {
+        nom: 'Exercice 2',
+        url: '/ex2',
+        icon: 'fastfood'
+      }
+      ]
+    }
   },
 
   setup () {
     const leftDrawerOpen = ref(false)
 
     return {
-      essentialLinks: linksList,
       leftDrawerOpen,
       toggleLeftDrawer () {
         leftDrawerOpen.value = !leftDrawerOpen.value
