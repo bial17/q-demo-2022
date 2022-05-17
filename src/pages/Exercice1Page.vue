@@ -32,28 +32,34 @@
 
   12) Faites en sorte qu'une personne aléatoire soit générée lors du premier chargement de la page
   -->
+  <h1>Exercice 1</h1>
   <q-page padding>
     <div className="form q-mb-lg">
       <div className="row q-mb-md">
         <label>Nom:</label>
-        <input type="text">
-        <label className="error">Maximum 15 caractères
+        <input type="text" v-model="name"
+               :class="{'error':!nameValide()}">
+        <label className="error" v-show="!nameValide()">
+          Maximum 15 caractères
         </label>
       </div>
       <div className="row q-mb-md">
         <label>Age:</label>
-        <input type="number">
-        <label className="error">Veuillez entrer un âge compris entre 1 et 100</label>
+        <input type="number" v-model="age"
+               :class="{'error':!ageValide()}">
+        <label className="error" v-show="!ageValide()">
+          Veuillez entrer un âge compris entre 1 et 100
+        </label>
       </div>
       <div className="row">
-        <button>Générer une personne</button>
+        <button @click="randomName">Générer une personne</button>
       </div>
     </div>
-    <div className="description q-mb-lg">
-      <p>Mon nom est <b>Danny</b> et j'ai <b>36</b> ans.</p>
-      <p>Dans 10 ans, j'aurai <b>46</b> ans.</p>
-      <p>Mon nom se compose de <b>5</b> caractères.</p>
-      <p>Mon nom en majuscules est <b>DANNY</b>.</p>
+    <div v-if="nameValide()" className="description q-mb-lg">
+      <p>Mon nom est <b>{{name}}</b> et j'ai <b>{{age}}</b> ans.</p>
+      <p>Dans 10 ans, j'aurai <b>{{ futurAge }}</b> ans.</p>
+      <p>Mon nom se compose de <b>{{name.length}}</b> caractères.</p>
+      <p>Mon nom en majuscules est <b>{{ name.toUpperCase() }}</b>.</p>
     </div>
     <div className="no-details">
       <p>Veuillez entrer un nom et un âge valide !</p>
@@ -63,9 +69,55 @@
 
 <script>
 import { defineComponent } from 'vue'
-
+const noms = [
+  'Steve',
+  'Alex',
+  'Paul',
+  'Tom',
+  'Jacky'
+]
 export default defineComponent({
-  name: 'Exercie1Page'
+  name: 'Exercie1Page',
+  data () {
+    return {
+      name: 'Alex',
+      age: '23'
+    }
+  },
+  computed: {
+    futurAge  () {
+      return parseInt(this.age) + 10
+    }
+  },
+  methods: {
+    nameValide () {
+      if (this.name.length > 0 && this.name.length <= 15) {
+        return true
+      }
+      return false
+    },
+    ageValide () {
+      if (this.age > 0 && this.age <= 100) {
+        return true
+      }
+      return false
+    },
+    randomName () {
+      this.name = noms[Math.floor(Math.random() * noms.length)]
+      this.age = Math.floor(Math.random() * 100)
+      // this.age = parseInt(Math.random() * 100) + 1
+    }
+  },
+  mounted () {
+    this.randomName()
+  },
+  directives: {
+    autofocus: {
+      mounted (element) {
+        element.focus()
+      }
+    }
+  }
 })
 </script>
 

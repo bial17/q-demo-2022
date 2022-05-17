@@ -36,7 +36,7 @@
           :to="lien.url"
           clickable
           v-ripple
-          active-class="my-menu-link"
+          active
         >
           <q-item-section avatar>
             <q-icon :name="lien.icon" />
@@ -68,6 +68,11 @@ export default defineComponent({
         nom: 'Exercice 2',
         url: '/ex2',
         icon: 'fastfood'
+      },
+      {
+        nom: 'Exercice 3',
+        url: '/ex3',
+        icon: 'dangerous'
       }
       ]
     }
